@@ -4,134 +4,45 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Música Club</title>
-
   <meta name="application-name" content="Música Club">
   <meta name="apple-mobile-web-app-title" content="Música Club">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#eaf7ff">
-
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png">
   <link rel="apple-touch-icon" sizes="167x167" href="./icon-167.png">
   <link rel="apple-touch-icon" sizes="152x152" href="./icon-152.png">
   <link rel="apple-touch-icon" sizes="120x120" href="./icon-120.png">
   <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
-
   <style>
-  :root { color-scheme: light; }
-  html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 100%;
-    overflow: hidden;
-    background: #eaf7ff;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Noto Sans Thai", sans-serif;
-  }
-
-  #app-frame {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100dvh;
-    min-height: 100vh;
-    overflow: hidden;
-    background: #eaf7ff;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-    box-sizing: border-box;
-  }
-
-  #musica-app {
-    position: absolute;
-    top: env(safe-area-inset-top);
-    left: 0;
-    right: 0;
-    bottom: max(88px, env(safe-area-inset-bottom));
-    display: block;
-    width: 100%;
-    height: auto;
-    min-width: 100%;
-    min-height: 100%;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    background: #fff;
-  }
-
-  #loading {
-    position: fixed;
-    z-index: 10;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    background: #eaf7ff;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity .25s ease, visibility .25s ease;
-    pointer-events: none;
-  }
-
-  #loading img {
-    width: min(180px, 45vw);
-    height: min(180px, 45vw);
-    object-fit: contain;
-    border-radius: 24px;
-  }
-
-  #loading div {
-    font-size: 15px;
-    color: #777;
-  }
-
-  #loading.hidden {
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  @supports not (height: 100dvh) {
-    #app-frame { height: 100vh; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #loading { transition: none; }
-  }
-</style>
+    :root { color-scheme: light; }
+    html, body { margin:0; width:100%; height:100%; min-height:100%; overflow:hidden; background:#eaf7ff; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Noto Sans Thai",sans-serif; }
+    #app-frame { position:fixed; inset:0; width:100vw; height:100dvh; min-height:100vh; overflow:hidden; background:#eaf7ff; box-sizing:border-box; }
+    /* Full-screen iframe: do NOT reserve space for the inner app's bottom navigation. */
+    #musica-app { position:absolute; inset:0; width:100%; height:100%; min-width:100%; min-height:100%; border:0; margin:0; padding:0; display:block; background:#eaf7ff; box-sizing:border-box; }
+    #loading { position:fixed; z-index:10; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; background:#eaf7ff; opacity:1; visibility:visible; transition:opacity .25s ease,visibility .25s ease; pointer-events:none; }
+    #loading img { width:min(220px,52vw); height:auto; max-height:180px; object-fit:contain; }
+    #loading div { font-size:15px; color:#777; }
+    #loading.hidden { opacity:0; visibility:hidden; }
+    @supports not (height:100dvh) { #app-frame,#musica-app { height:100vh; } }
+    @media (prefers-reduced-motion:reduce) { #loading { transition:none; } }
+  </style>
 </head>
 <body>
   <div id="app-frame">
     <div id="loading">
-      <img src="./icon-512.png" alt="Música Club">
+      <img src="./logo.png" alt="Música Club">
       <div>กำลังเปิด Música Club...</div>
     </div>
-    <iframe
-      id="musica-app"
-      src="https://script.google.com/macros/s/AKfycbyq97v3iT0XBSzTS46ade3ckf3dn_f03dJ6XEGEYIDodJlvrk1ECzjixPxQxT_z_6Yz/exec"
-      title="Música Club"
-      allow="fullscreen; clipboard-read; clipboard-write"
-      referrerpolicy="strict-origin-when-cross-origin">
-    </iframe>
+    <iframe id="musica-app" src="https://script.google.com/macros/s/AKfycbyq97v3iT0XBSzTS46ade3ckf3dn_f03dJ6XEGEYIDodJlvrk1ECzjixPxQxT_z_6Yz/exec" title="Música Club" allow="fullscreen; clipboard-read; clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe>
   </div>
-
   <script>
-    const frame = document.getElementById('musica-app');
-    const loading = document.getElementById('loading');
-
-    frame.addEventListener('load', () => {
-      setTimeout(() => {
-        loading.classList.add('hidden');
-      }, 250);
-    });
-
-    // Safety: never leave a permanent loading screen.
-    setTimeout(() => loading.classList.add('hidden'), 10000);
+    const frame=document.getElementById('musica-app');
+    const loading=document.getElementById('loading');
+    frame.addEventListener('load',()=>setTimeout(()=>loading.classList.add('hidden'),250));
+    setTimeout(()=>loading.classList.add('hidden'),10000);
   </script>
-</body></body>
+</body>
 </html>
