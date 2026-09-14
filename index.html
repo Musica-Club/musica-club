@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Música Club</title>
+
+  <meta name="application-name" content="Música Club">
+  <meta name="apple-mobile-web-app-title" content="Música Club">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="./icon-167.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./icon-152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="./icon-120.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans Thai", sans-serif;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    .launch {
+      width: min(88vw, 360px);
+      text-align: center;
+    }
+    .logo {
+      width: min(58vw, 240px);
+      height: auto;
+      display: block;
+      margin: 0 auto 28px;
+    }
+    .spinner {
+      width: 28px;
+      height: 28px;
+      margin: 0 auto;
+      border: 3px solid #e8e8e8;
+      border-top-color: #777;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    .text {
+      margin-top: 16px;
+      font-size: 15px;
+      color: #777;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      .spinner { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="launch" aria-label="Música Club">
+    <img class="logo" src="./icon-512.png" alt="Música Club">
+    <div class="spinner" aria-hidden="true"></div>
+    <div class="text">กำลังเปิด Música Club...</div>
+  </main>
+
+  <script>
+    const APP_URL = "https://script.google.com/macros/s/AKfycbyq97v3iT0XBSzTS46ade3ckf3dn_f03dJ6XEGEYIDodJlvrk1ECzjixPxQxT_z_6Yz/exec";
+    // Keep this page only as the installable launcher.
+    // The actual Música Club system remains on the existing Apps Script Web App.
+    setTimeout(() => {
+      window.location.replace(APP_URL);
+    }, 500);
+  </script>
+</body>
+</html>
