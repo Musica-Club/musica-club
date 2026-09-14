@@ -19,74 +19,113 @@
   <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 
   <style>
-    html, body {
-      margin: 0;
-      width: 100%;
-      min-height: 100%;
-      background: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans Thai", sans-serif;
-    }
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      min-height: 100dvh;
-    }
-    .launch {
-      width: min(88vw, 360px);
-      text-align: center;
-    }
-    .logo {
-      width: min(58vw, 240px);
-      height: auto;
-      display: block;
-      margin: 0 auto 28px;
-    }
-    .open-btn {
-      appearance: none;
-      border: 0;
-      border-radius: 16px;
-      padding: 14px 24px;
-      font-size: 16px;
-      font-weight: 600;
-      background: #fff;
-      box-shadow: 0 4px 18px rgba(0,0,0,.08);
-      cursor: pointer;
-    }
-    .open-btn:active {
-      transform: scale(.98);
-    }
-    .text {
-      margin-top: 14px;
-      font-size: 15px;
-      color: #777;
-    }
-  </style>
+  :root { color-scheme: light; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Noto Sans Thai", sans-serif;
+  }
+
+  #app-frame {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    min-height: 100vh;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  #musica-app {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  #loading {
+    position: fixed;
+    z-index: 10;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: #fff;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .25s ease, visibility .25s ease;
+    pointer-events: none;
+  }
+
+  #loading img {
+    width: min(180px, 45vw);
+    height: min(180px, 45vw);
+    object-fit: contain;
+    border-radius: 24px;
+  }
+
+  #loading div {
+    font-size: 15px;
+    color: #777;
+  }
+
+  #loading.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  @supports not (height: 100dvh) {
+    #app-frame { height: 100vh; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #loading { transition: none; }
+  }
+</style>
 </head>
 <body>
-  <main class="launch" aria-label="Música Club">
-    <img class="logo" src="./icon-512.png" alt="Música Club">
-    <button class="open-btn" type="button" onclick="openApp()">เข้าสู่ระบบ Música Club</button>
-    <div class="text">กดปุ่มเพื่อเข้าสู่ระบบ</div>
-  </main>
+  <div id="app-frame">
+    <div id="loading">
+      <img src="./icon-512.png" alt="Música Club">
+      <div>กำลังเปิด Música Club...</div>
+    </div>
+    <iframe
+      id="musica-app"
+      src="https://script.google.com/macros/s/AKfycbyq97v3iT0XBSzTS46ade3ckf3dn_f03dJ6XEGEYIDodJlvrk1ECzjixPxQxT_z_6Yz/exec"
+      title="Música Club"
+      allow="fullscreen; clipboard-read; clipboard-write"
+      referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+  </div>
 
   <script>
-    const APP_URL = "https://script.google.com/macros/s/AKfycbyq97v3iT0XBSzTS46ade3ckf3dn_f03dJ6XEGEYIDodJlvrk1ECzjixPxQxT_z_6Yz/exec";
-    // In normal Safari, stay on this GitHub Pages launcher so it can be
-    // added to the Home Screen with the Música Club icon.
-    // When launched as an installed web app, open the real Apps Script app.
-    function openApp() {
-      window.location.replace(APP_URL);
-    }
+    const frame = document.getElementById('musica-app');
+    const loading = document.getElementById('loading');
 
-    const isInstalled =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true;
+    frame.addEventListener('load', () => {
+      setTimeout(() => {
+        loading.classList.add('hidden');
+      }, 250);
+    });
 
-    if (isInstalled) {
-      setTimeout(openApp, 300);
-    }
+    // Safety: never leave a permanent loading screen.
+    setTimeout(() => loading.classList.add('hidden'), 10000);
   </script>
-</body>
+</body></body>
 </html>
